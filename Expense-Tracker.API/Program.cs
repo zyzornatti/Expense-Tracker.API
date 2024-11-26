@@ -1,3 +1,4 @@
+using Expense_Tracker.API.CustomExceptions;
 using Expense_Tracker.API.Data;
 using Expense_Tracker.API.Mappings;
 using Expense_Tracker.API.Repositories;
@@ -53,6 +54,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Use custom exception middleware
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 

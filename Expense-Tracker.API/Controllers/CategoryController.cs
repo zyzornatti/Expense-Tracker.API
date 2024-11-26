@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Expense_Tracker.API.CustomActionFilters;
+using Expense_Tracker.API.CustomExceptions;
 using Expense_Tracker.API.Models.Domain;
 using Expense_Tracker.API.Models.DTO;
 using Expense_Tracker.API.Repositories;
@@ -44,12 +45,12 @@ namespace Expense_Tracker.API.Controllers
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             var existingCategory = await _categoryRepository.GetById(id);
-            if (existingCategory != null)
+            if (existingCategory == null)
             {
-                return Ok(_mapper.Map<CategoryDto>(existingCategory));
+                return NotFound($"Category with ID {id} not found.");             
             }
 
-            return BadRequest();
+            return Ok(_mapper.Map<CategoryDto>(existingCategory));
         }
 
         [HttpPut]
@@ -60,12 +61,12 @@ namespace Expense_Tracker.API.Controllers
             var existingCategory = _mapper.Map<Category>(updateCategoryRequestDto);
             existingCategory = await _categoryRepository.UpdateAsync(id, existingCategory);
 
-            if (existingCategory != null)
+            if (existingCategory == null)
             {
-                return Ok(_mapper.Map<CategoryDto>(existingCategory));
+                return NotFound($"Category with ID {id} not found.");                
             }
 
-            return BadRequest();
+            return Ok(_mapper.Map<CategoryDto>(existingCategory));
         }
 
         [HttpDelete]
@@ -75,12 +76,12 @@ namespace Expense_Tracker.API.Controllers
         {
             var existingCategory = await _categoryRepository.DeleteAsync(id);
 
-            if (existingCategory != null)
+            if (existingCategory == null)
             {
-                return Ok(_mapper.Map<CategoryDto>(existingCategory));
+                return NotFound($"Category with ID {id} not found.");                
             }
 
-            return BadRequest();
+            return Ok(_mapper.Map<CategoryDto>(existingCategory));
         }
 
     }

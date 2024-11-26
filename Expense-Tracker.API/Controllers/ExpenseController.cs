@@ -34,12 +34,14 @@ namespace Expense_Tracker.API.Controllers
             return Ok(mapper.Map<ExpenseDto>(expense));
         }
 
+        // GET: /api/expense?filterOn=Name&filteryQuery=Track&sortBy=Name&isAscending=true&pageNumber=1&pageSize=1000
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] string? filterOn, [FromQuery] string? filterQuery,
+            [FromQuery] string? sortBy, [FromQuery] bool? isAscending, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 1000)
         {
             //return await dbContext.Expenses.ToListAsync();
             //Get all expenses from the database
-            var expenses = await expenseRepository.GetAllAsync();
+            var expenses = await expenseRepository.GetAllAsync(filterOn, filterQuery, sortBy, isAscending ?? true, pageNumber, pageSize);
 
             //Map the expenses into a Dto and return it
             return Ok(mapper.Map<List<ExpenseDto>>(expenses));
@@ -52,7 +54,7 @@ namespace Expense_Tracker.API.Controllers
             var existingExpense = await expenseRepository.GetByIdAsync(id);
             if(existingExpense == null)
             {
-                return NotFound();
+                return NotFound("Expense with Id {id} not found.");
             }
 
             //Map the expenses into a Dto and return it
@@ -67,12 +69,12 @@ namespace Expense_Tracker.API.Controllers
             var existingExpense = mapper.Map<Expense>(updateExpenseRequestDto);
             existingExpense = await expenseRepository.UpdateAsync(id, existingExpense);
 
-            if(existingExpense != null)
+            if(existingExpense == null)
             {
-                return Ok(mapper.Map<ExpenseDto>(existingExpense));
+                return NotFound("Expense with Id {id} not found.");                
             }
 
-            return BadRequest();
+            return Ok(mapper.Map<ExpenseDto>(existingExpense));
         }
 
         [HttpDelete]
@@ -81,12 +83,12 @@ namespace Expense_Tracker.API.Controllers
         {
             var existingExpense = await expenseRepository.DeleteAsync(id);
 
-            if (existingExpense != null)
+            if (existingExpense == null)
             {
-                return Ok(mapper.Map<ExpenseDto>(existingExpense));
+                return NotFound("Expense with Id {id} not found.");                
             }
 
-            return BadRequest();
+            return Ok(mapper.Map<ExpenseDto>(existingExpense));
         }
     }
 }
