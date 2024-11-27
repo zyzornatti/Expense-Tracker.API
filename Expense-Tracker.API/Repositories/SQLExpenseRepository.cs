@@ -31,9 +31,11 @@ namespace Expense_Tracker.API.Repositories
             return existingExpense;
         }
 
-        public async Task<List<Expense>> GetAllAsync(string? filterOn = null, string? filterQuery = null, string? sortBy = null, bool isAscending = true, int pageNumber = 1, int pageSize = 1000)
+        public async Task<List<Expense>> GetAllAsync(Guid userId, string? filterOn = null, string? filterQuery = null, string? sortBy = null, bool isAscending = true, int pageNumber = 1, int pageSize = 1000)
         {
-            var expenses = dbContext.Expenses.Include("User").Include("Category").AsQueryable();
+            var expenses = dbContext.Expenses
+                .Where(e => e.UserId == userId)
+                .Include("User").Include("Category").AsQueryable();
 
             //Filter
             if(string.IsNullOrWhiteSpace(filterOn) == false && string.IsNullOrWhiteSpace(filterQuery) == false)
@@ -78,6 +80,13 @@ namespace Expense_Tracker.API.Repositories
                 return null;
             }
             return existingExpense;
+        }
+
+        public async Task<decimal?> GetTotalExpensesAsync(Guid userId, DateTime startDate, DateTime endDate)
+        {
+             return await dbContext.Expenses
+                    .Where(e => e.UserId == userId && e.Date >= startDate && e.Date <= endDate)
+                    .SumAsync(e => e.Amount);       
         }
 
         public async Task<Expense?> UpdateAsync(Guid id, Expense expense)

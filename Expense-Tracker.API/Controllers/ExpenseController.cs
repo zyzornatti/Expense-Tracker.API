@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Expense_Tracker.API.CustomActionFilters;
+using Expense_Tracker.API.CustomExceptions;
 using Expense_Tracker.API.Models.Domain;
 using Expense_Tracker.API.Models.DTO;
 using Expense_Tracker.API.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Expense_Tracker.API.Controllers
 {
@@ -41,10 +43,16 @@ namespace Expense_Tracker.API.Controllers
         {
             //return await dbContext.Expenses.ToListAsync();
             //Get all expenses from the database
-            var expenses = await expenseRepository.GetAllAsync(filterOn, filterQuery, sortBy, isAscending ?? true, pageNumber, pageSize);
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            //Map the expenses into a Dto and return it
-            return Ok(mapper.Map<List<ExpenseDto>>(expenses));
+            if (Guid.TryParse(userIdClaim, out var userId))
+            {
+                var expenses = await expenseRepository.GetAllAsync(userId, filterOn, filterQuery, sortBy, isAscending ?? true, pageNumber, pageSize);
+                //Map the expenses into a Dto and return it
+                return Ok(mapper.Map<List<ExpenseDto>>(expenses));
+            }
+
+            throw new ResourceNotFoundException("User Not Authe ticated");
         }
 
         [HttpGet]
@@ -59,6 +67,45 @@ namespace Expense_Tracker.API.Controllers
 
             //Map the expenses into a Dto and return it
             return Ok(mapper.Map<ExpenseDto>(existingExpense));
+        }
+
+        [HttpGet("total")]
+        //[Authorize]
+        public async Task<IActionResult> GetTotalExpenses([FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
+        {
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //return Ok(userIdClaim);
+
+            if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out var userId))
+            {
+                throw new ResourceNotFoundException("User not authenticated.");
+            }
+
+            if (startDate == default || endDate == default)
+            {
+                return BadRequest("Start date and end date are required.");
+            }
+
+            if (startDate > endDate)
+            {
+                return BadRequest("Start date cannot be later than end date.");
+            }
+
+            try
+            {
+                var totalExpenses = await expenseRepository.GetTotalExpensesAsync(userId, startDate, endDate);
+                return Ok(new
+                {
+                    Total = totalExpenses,
+                    StartDate = startDate,
+                    EndDate = endDate
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = ex.Message });
+            }
+
         }
 
         [HttpPut]

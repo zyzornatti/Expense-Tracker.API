@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Expense_Tracker.API.CustomActionFilters;
+using Expense_Tracker.API.CustomExceptions;
 using Expense_Tracker.API.Models.Domain;
 using Expense_Tracker.API.Models.DTO;
 using Expense_Tracker.API.Repositories;
@@ -49,7 +50,7 @@ namespace Expense_Tracker.API.Controllers
             var details = await _userRepository.LoginAsync(_mapper.Map<User>(loginInput));
             if (details == null)
             {
-                Unauthorized("Invalid username or password.");
+               throw new ResourceNotFoundException("Invalid username or password.");
             }
 
             // Generate JWT
@@ -63,9 +64,10 @@ namespace Expense_Tracker.API.Controllers
         {
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Username),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString())
+                //new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+                //new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                new Claim(ClaimTypes.Name, user.Username)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
