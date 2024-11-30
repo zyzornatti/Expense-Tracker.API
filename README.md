@@ -67,6 +67,6 @@ ExpenseTracker.API is a robust RESTful API built with ASP.NET Core to help users
 - Category: Groups expenses into meaningful categories.
 - Budget: Defines spending limits and tracks against expenses.
 
-##Relationships
+## **Relationships**
 - A User can have many Expenses and Budgets.
 - An Expense belongs to a Category.
