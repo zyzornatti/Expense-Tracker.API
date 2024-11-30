@@ -6,7 +6,9 @@ using Expense_Tracker.API.Models.DTO;
 using Expense_Tracker.API.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Security.Claims;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Expense_Tracker.API.Controllers
 {
@@ -31,6 +33,23 @@ namespace Expense_Tracker.API.Controllers
         public async Task<IActionResult> Create([FromBody] AddExpenseRequestDto expenseRequestDto)
         {
             var expense = mapper.Map<Expense>(expenseRequestDto);
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var parsedUserId))
+            {
+                throw new ResourceNotFoundException("User not authenticated.");
+            }
+
+            expense = new Expense
+            {
+                UserId = parsedUserId,
+                CategoryId = expense.CategoryId,
+                Amount = expense.Amount,
+                Description = null ?? expense.Description,
+                Date = expense.Date,
+            };
+
             expense = await expenseRepository.CreateAsync(expense);
 
             return Ok(mapper.Map<ExpenseDto>(expense));
@@ -48,11 +67,11 @@ namespace Expense_Tracker.API.Controllers
             if (Guid.TryParse(userIdClaim, out var userId))
             {
                 var expenses = await expenseRepository.GetAllAsync(userId, filterOn, filterQuery, sortBy, isAscending ?? true, pageNumber, pageSize);
-                //Map the expenses into a Dto and return it
+                //Map the expenses into a Dto and return it  
                 return Ok(mapper.Map<List<ExpenseDto>>(expenses));
             }
 
-            throw new ResourceNotFoundException("User Not Authe ticated");
+            throw new ResourceNotFoundException("User Not Authenticated");
         }
 
         [HttpGet]
@@ -118,7 +137,7 @@ namespace Expense_Tracker.API.Controllers
 
             if(existingExpense == null)
             {
-                return NotFound("Expense with Id {id} not found.");                
+                return NotFound($"Expense with Id {id} not found.");                
             }
 
             return Ok(mapper.Map<ExpenseDto>(existingExpense));
@@ -132,7 +151,7 @@ namespace Expense_Tracker.API.Controllers
 
             if (existingExpense == null)
             {
-                return NotFound("Expense with Id {id} not found.");                
+                return NotFound($"Expense with Id {id} not found.");                
             }
 
             return Ok(mapper.Map<ExpenseDto>(existingExpense));

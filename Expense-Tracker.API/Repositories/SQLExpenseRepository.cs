@@ -1,5 +1,6 @@
 ﻿using Expense_Tracker.API.Data;
 using Expense_Tracker.API.Models.Domain;
+using Expense_Tracker.API.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace Expense_Tracker.API.Repositories
@@ -35,7 +36,9 @@ namespace Expense_Tracker.API.Repositories
         {
             var expenses = dbContext.Expenses
                 .Where(e => e.UserId == userId)
-                .Include("User").Include("Category").AsQueryable();
+                .Include("User")
+                .Include("Category")
+                .AsQueryable();
 
             //Filter
             if(string.IsNullOrWhiteSpace(filterOn) == false && string.IsNullOrWhiteSpace(filterQuery) == false)
@@ -68,13 +71,14 @@ namespace Expense_Tracker.API.Repositories
             var skipResults = (pageNumber - 1) * pageSize;
 
             return await expenses.Skip(skipResults).Take(pageSize).ToListAsync();
-
-            //return await dbContext.Expenses.ToListAsync();
         }
 
         public async Task<Expense?> GetByIdAsync(Guid id)
         {
-            var existingExpense = await dbContext.Expenses.FirstOrDefaultAsync(x => x.ExpenseId == id);
+            var existingExpense = await dbContext.Expenses
+                                .Include("User")
+                                .Include("Category")
+                                .FirstOrDefaultAsync(x => x.ExpenseId == id);
             if (existingExpense == null)
             {
                 return null;

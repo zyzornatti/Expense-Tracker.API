@@ -13,7 +13,9 @@ namespace Expense_Tracker.API.Mappings
             CreateMap<LoginDto, User>().ReverseMap();
 
             //Expense
-            CreateMap<Expense, ExpenseDto>().ReverseMap();
+            CreateMap<Expense, ExpenseDto>()
+                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category.Name))
+                .ReverseMap();
             CreateMap<AddExpenseRequestDto, Expense>().ReverseMap();
             CreateMap<UpdateExpenseRequestDto, Expense>().ReverseMap();
 
@@ -21,6 +23,10 @@ namespace Expense_Tracker.API.Mappings
             CreateMap<Category, CategoryDto>().ReverseMap();
             CreateMap<AddCategoryRequestDto, Category>().ReverseMap();
             CreateMap<UpdateCategoryRequestDto, Category>().ReverseMap();
+
+            //Budget
+            CreateMap<Budget, BudgetDto>().ReverseMap();
+            CreateMap<Budget, AddBudgetDto>().ReverseMap();
         }
     }
 }

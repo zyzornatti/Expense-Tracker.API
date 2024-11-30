@@ -23,6 +23,7 @@ builder.Services.AddDbContext<ExpenseTrackerDbContext>(options =>
 builder.Services.AddScoped<IExpenseRepository, SQLExpenseRepository>();
 builder.Services.AddScoped<ICategoryRepository, SQLCategoryRepository>();
 builder.Services.AddScoped<IUserRepository, SQLUserRepository>();
+builder.Services.AddScoped<IBudgetRepository, SQLBudgetRepository>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 

@@ -12,29 +12,33 @@ namespace Expense_Tracker.API.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<Category> Categories { get; set; }
-
+        public DbSet<Budget> Budgets { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Expense>()
                 .Property(e => e.Amount)
-                .HasColumnType("decimal(18,2)"); // Adjust precision and scale as needed
+                .HasColumnType("decimal(18,2)"); 
+
+            modelBuilder.Entity<Budget>()
+                .Property(e => e.Amount)
+                .HasColumnType("decimal(18,2)"); 
 
             // One-to-Many: User -> Expenses
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Expenses)
                 .WithOne(e => e.User)
                 .HasForeignKey(e => e.UserId)
-                .OnDelete(DeleteBehavior.NoAction);  // If a user is deleted, their expenses are also deleted
+                .OnDelete(DeleteBehavior.NoAction); 
 
             // One-to-Many: Category -> Expenses
             modelBuilder.Entity<Category>()
                 .HasMany(c => c.Expenses)
                 .WithOne(e => e.Category)
                 .HasForeignKey(e => e.CategoryId)
-                .OnDelete(DeleteBehavior.SetNull);  // If a category is deleted, expenses are set to null
+                .OnDelete(DeleteBehavior.SetNull); 
 
-            // One-to-Many: User -> Categories (optional)
+            // One-to-Many: User -> Categories 
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Categories)
                 .WithOne(c => c.User)

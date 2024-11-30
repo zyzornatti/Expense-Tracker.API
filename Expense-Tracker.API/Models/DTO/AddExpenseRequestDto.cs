@@ -10,8 +10,6 @@ namespace Expense_Tracker.API.Models.DTO
         [Required]
         public DateTime Date { get; set; }
         [Required]
-        public Guid UserId { get; set; }
-        [Required]
         public Guid CategoryId { get; set; }
 
 
