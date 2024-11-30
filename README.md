@@ -36,7 +36,7 @@ ExpenseTracker.API is a robust RESTful API built with ASP.NET Core to help users
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/ExpenseTracker.API.git
+   git clone https://github.com/zyzornatti/Expense-Tracker.API.git
    cd ExpenseTracker.API
 
 
