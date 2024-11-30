@@ -40,32 +40,33 @@ ExpenseTracker.API is a robust RESTful API built with ASP.NET Core to help users
    cd ExpenseTracker.API
 
 
-### **API Endpoints**
-Authentication
-POST /api/auth/register - Register a new user.
-POST /api/auth/login - Login and receive a JWT token.
+## **API Endpoints**
+### **Authentication**
+- POST /api/auth/register - Register a new user.
+- POST /api/auth/login - Login and receive a JWT token.
 
-Expenses
-GET /api/expenses - Get all expenses for the logged-in user.
-POST /api/expense - Add a new expense.
-PUT /api/expense/{id} - Update an expense.
-DELETE /api/expense/{id} - Delete an expense.
-DELETE /api/expense/total - Get all expenses for a specific period of time providing startDate and endDate paramters
-Budgets
-POST /api/budgets/create - Create a budget.
-GET /api/budgets/reports/budget-insights - Get insights and reports on budgets and expenses.
+### **Expenses**
+- GET /api/expenses - Get all expenses for the logged-in user.
+- POST /api/expense - Add a new expense.
+- PUT /api/expense/{id} - Update an expense.
+- DELETE /api/expense/{id} - Delete an expense.
+- DELETE /api/expense/total - Get all expenses for a specific period of time providing startDate and endDate paramters
 
-Categories
-GET /api/category - Get all categories.
-POST /api/category - Add a new category.
+### **Budgets**
+- POST /api/budgets/create - Create a budget.
+- GET /api/budgets/reports/budget-insights - Get insights and reports on budgets and expenses.
 
-### **Database Design**
-Entities
-User: Manages user authentication and links to expenses and budgets.
-Expense: Tracks individual expense details.
-Category: Groups expenses into meaningful categories.
-Budget: Defines spending limits and tracks against expenses.
+### **Categories**
+- GET /api/category - Get all categories.
+- POST /api/category - Add a new category.
 
-Relationships
-A User can have many Expenses and Budgets.
-An Expense belongs to a Category.
+## **Database Design**
+### **Entities**
+- User: Manages user authentication and links to expenses and budgets.
+- Expense: Tracks individual expense details.
+- Category: Groups expenses into meaningful categories.
+- Budget: Defines spending limits and tracks against expenses.
+
+##Relationships
+- A User can have many Expenses and Budgets.
+- An Expense belongs to a Category.
