@@ -1,7 +1,7 @@
 ﻿using Expense_Tracker.API.Models.Domain;
 using Expense_Tracker.API.Models.DTO;
 
-namespace Expense_Tracker.API.Repositories
+namespace Expense_Tracker.API.Interfaces
 {
     public interface IBudgetRepository
     {

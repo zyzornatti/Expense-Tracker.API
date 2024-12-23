@@ -2,7 +2,7 @@
 using Expense_Tracker.API.CustomExceptions;
 using Expense_Tracker.API.Models.Domain;
 using Expense_Tracker.API.Models.DTO;
-using Expense_Tracker.API.Repositories;
+using Expense_Tracker.API.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

@@ -1,14 +1,10 @@
 ﻿using Expense_Tracker.API.Data;
 using Expense_Tracker.API.Models.Domain;
-using Expense_Tracker.API.Models.DTO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+using Expense_Tracker.API.Interfaces;
 
-namespace Expense_Tracker.API.Repositories
+namespace Expense_Tracker.API.Services
 {
     public class SQLUserRepository : IUserRepository
     {

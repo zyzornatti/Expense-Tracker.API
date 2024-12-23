@@ -1,9 +1,10 @@
 ﻿using Expense_Tracker.API.Data;
 using Expense_Tracker.API.Models.Domain;
 using Expense_Tracker.API.Models.DTO;
+using Expense_Tracker.API.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Expense_Tracker.API.Repositories
+namespace Expense_Tracker.API.Services
 {
     public class SQLBudgetRepository : IBudgetRepository
     {

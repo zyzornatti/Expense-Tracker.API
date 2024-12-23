@@ -3,12 +3,8 @@ using Expense_Tracker.API.CustomActionFilters;
 using Expense_Tracker.API.CustomExceptions;
 using Expense_Tracker.API.Models.Domain;
 using Expense_Tracker.API.Models.DTO;
-using Expense_Tracker.API.Repositories;
+using Expense_Tracker.API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace Expense_Tracker.API.Controllers
 {
@@ -19,13 +15,13 @@ namespace Expense_Tracker.API.Controllers
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        private readonly IConfiguration _configuration;
+        private readonly ITokenRepository _tokenRepository;
 
-        public UserController(IUserRepository userRepository, IMapper mapper, IConfiguration configuration)
+        public UserController(IUserRepository userRepository, IMapper mapper, ITokenRepository tokenRepository)
         {
             _userRepository = userRepository;
             _mapper = mapper;
-            _configuration = configuration;
+            _tokenRepository = tokenRepository;
         }
 
         [HttpPost("register")]
@@ -54,35 +50,13 @@ namespace Expense_Tracker.API.Controllers
             }
 
             // Generate JWT
-            var token = GenerateJwtToken(details);
-            return Ok(new { Token = token });
-
-        }
-
-        // Generate JWT Token
-        private string GenerateJwtToken(User user)
-        {
-            var claims = new[]
-            {
-                //new Claim(JwtRegisteredClaimNames.Sub, user.Username),
-                //new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
-                new Claim(ClaimTypes.Name, user.Username)
+            var token = _tokenRepository.GenerateJwtToken(details);
+            var response = new LoginResponseDto
+            { 
+                JwtToken = token 
             };
+            return Ok(response);
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
-                claims: claims,
-                expires: DateTime.Now.AddHours(1),
-                signingCredentials: creds
-            );
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
     }
 }

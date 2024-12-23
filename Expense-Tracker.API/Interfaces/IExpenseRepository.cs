@@ -1,7 +1,6 @@
 ﻿using Expense_Tracker.API.Models.Domain;
-using System.Globalization;
 
-namespace Expense_Tracker.API.Repositories
+namespace Expense_Tracker.API.Interfaces
 {
     public interface IExpenseRepository
     {
