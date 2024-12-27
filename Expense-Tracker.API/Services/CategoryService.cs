@@ -5,11 +5,11 @@ using Expense_Tracker.API.Interfaces;
 
 namespace Expense_Tracker.API.Services
 {
-    public class SQLCategoryRepository : ICategoryRepository
+    public class CategoryService : ICategoryService
     {
         private readonly ExpenseTrackerDbContext _dbContext;
 
-        public SQLCategoryRepository(ExpenseTrackerDbContext dbContext)
+        public CategoryService(ExpenseTrackerDbContext dbContext)
         {
             _dbContext = dbContext;
         }

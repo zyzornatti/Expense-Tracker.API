@@ -2,7 +2,7 @@
 
 namespace Expense_Tracker.API.Interfaces
 {
-    public interface IExpenseRepository
+    public interface IExpenseService
     {
         Task<List<Expense>> GetAllAsync(Guid userId, string? filterOn, string? filterQuery,string? sortBy,bool isAscending,int pageNumber,int pageSize);
         Task<Expense?> GetByIdAsync(Guid id);

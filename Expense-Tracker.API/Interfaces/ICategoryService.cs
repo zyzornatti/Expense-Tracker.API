@@ -2,7 +2,7 @@
 
 namespace Expense_Tracker.API.Interfaces
 {
-    public interface ICategoryRepository
+    public interface ICategoryService
     {
         Task<Category> CreateAsync(Category category);
         Task<List<Category>> GetAllAsync();

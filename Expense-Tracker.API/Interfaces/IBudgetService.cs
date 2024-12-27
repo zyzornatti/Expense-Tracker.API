@@ -3,7 +3,7 @@ using Expense_Tracker.API.Models.DTO;
 
 namespace Expense_Tracker.API.Interfaces
 {
-    public interface IBudgetRepository
+    public interface IBudgetService
     {
         Task<Budget> CreateBudgetAsync(Budget budget);
         Task<List<Budget>> GetAllBudgetAsync(Guid user);

@@ -5,11 +5,11 @@ using Expense_Tracker.API.Interfaces;
 
 namespace Expense_Tracker.API.Services
 {
-    public class SQLExpenseRepository : IExpenseRepository
+    public class ExpenseService : IExpenseService
     {
         private readonly ExpenseTrackerDbContext dbContext;
 
-        public SQLExpenseRepository(ExpenseTrackerDbContext dbContext)
+        public ExpenseService(ExpenseTrackerDbContext dbContext)
         {
             this.dbContext = dbContext;
         }

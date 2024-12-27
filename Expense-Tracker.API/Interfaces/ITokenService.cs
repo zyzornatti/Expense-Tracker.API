@@ -2,7 +2,7 @@
 
 namespace Expense_Tracker.API.Interfaces
 {
-    public interface ITokenRepository
+    public interface ITokenService
     {
         string GenerateJwtToken(User user);
     }

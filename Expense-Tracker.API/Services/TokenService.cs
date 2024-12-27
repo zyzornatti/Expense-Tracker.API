@@ -7,11 +7,11 @@ using Expense_Tracker.API.Interfaces;
 
 namespace Expense_Tracker.API.Services
 {
-    public class TokenRepository : ITokenRepository
+    public class TokenService : ITokenService
     {
         private readonly IConfiguration _configuration;
 
-        public TokenRepository(IConfiguration configuration)
+        public TokenService(IConfiguration configuration)
         {
             _configuration = configuration;
         }

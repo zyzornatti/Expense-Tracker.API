@@ -13,11 +13,11 @@ namespace Expense_Tracker.API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userRepository;
         private readonly IMapper _mapper;
-        private readonly ITokenRepository _tokenRepository;
+        private readonly ITokenService _tokenRepository;
 
-        public UserController(IUserRepository userRepository, IMapper mapper, ITokenRepository tokenRepository)
+        public UserController(IUserService userRepository, IMapper mapper, ITokenService tokenRepository)
         {
             _userRepository = userRepository;
             _mapper = mapper;

@@ -2,7 +2,7 @@
 
 namespace Expense_Tracker.API.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserService
     {
         Task<User?> LoginAsync(User user);
         Task<User?> RegisterAsync(User details);

@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Expense_Tracker.API.Services
 {
-    public class SQLBudgetRepository : IBudgetRepository
+    public class BudgetService : IBudgetService
     {
         private readonly ExpenseTrackerDbContext _dbContext;
 
-        public SQLBudgetRepository(ExpenseTrackerDbContext dbContext)
+        public BudgetService(ExpenseTrackerDbContext dbContext)
         {
             _dbContext = dbContext;
         }

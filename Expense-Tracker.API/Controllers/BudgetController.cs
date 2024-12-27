@@ -16,10 +16,10 @@ namespace Expense_Tracker.API.Controllers
     [Authorize]
     public class BudgetController : ControllerBase
     {
-        private readonly IBudgetRepository _budgetRepository;
+        private readonly IBudgetService _budgetRepository;
         private readonly IMapper _mapper;
 
-        public BudgetController(IBudgetRepository budgetRepository, IMapper mapper)
+        public BudgetController(IBudgetService budgetRepository, IMapper mapper)
         {
             _budgetRepository = budgetRepository;
             _mapper = mapper;

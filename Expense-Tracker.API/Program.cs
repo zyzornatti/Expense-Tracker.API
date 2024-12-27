@@ -18,7 +18,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new OpenApiInfo { Title = "NZ Walks API", Version = "v1" });
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Expense Tracker API", Version = "v1" });
     options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -50,11 +50,11 @@ builder.Services.AddDbContext<ExpenseTrackerDbContext>(options =>
   options.UseSqlServer(builder.Configuration.GetConnectionString("ExpenseTrackerConnectionString"))
 );
 
-builder.Services.AddScoped<IExpenseRepository, SQLExpenseRepository>();
-builder.Services.AddScoped<ICategoryRepository, SQLCategoryRepository>();
-builder.Services.AddScoped<IUserRepository, SQLUserRepository>();
-builder.Services.AddScoped<IBudgetRepository, SQLBudgetRepository>();
-builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+builder.Services.AddScoped<IExpenseService, ExpenseService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IBudgetService, BudgetService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));

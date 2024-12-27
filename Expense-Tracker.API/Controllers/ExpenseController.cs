@@ -17,11 +17,11 @@ namespace Expense_Tracker.API.Controllers
     [Authorize]
     public class ExpenseController : ControllerBase
     {
-        private readonly IExpenseRepository expenseRepository;
+        private readonly IExpenseService expenseRepository;
         private readonly IMapper mapper;
         //private readonly ExpenseTrackerDbContext dbContext;
 
-        public ExpenseController(IExpenseRepository expenseRepository, IMapper mapper)
+        public ExpenseController(IExpenseService expenseRepository, IMapper mapper)
         {
             this.expenseRepository = expenseRepository;
             this.mapper = mapper;

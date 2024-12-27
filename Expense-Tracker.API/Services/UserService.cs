@@ -6,11 +6,11 @@ using Expense_Tracker.API.Interfaces;
 
 namespace Expense_Tracker.API.Services
 {
-    public class SQLUserRepository : IUserRepository
+    public class UserService : IUserService
     {
         private readonly ExpenseTrackerDbContext _dbContext;
 
-        public SQLUserRepository(ExpenseTrackerDbContext dbContext)
+        public UserService(ExpenseTrackerDbContext dbContext)
         {
             _dbContext = dbContext;
         }
