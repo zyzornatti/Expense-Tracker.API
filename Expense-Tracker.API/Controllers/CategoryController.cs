@@ -9,7 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Expense_Tracker.API.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
+    [Route("api/category")]
     [ApiController]
     [Authorize]
     public class CategoryController : ControllerBase

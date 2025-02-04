@@ -12,7 +12,8 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Expense_Tracker.API.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
+    [Route("api/expenses")]
     [ApiController]
     [Authorize]
     public class ExpenseController : ControllerBase
@@ -38,7 +39,7 @@ namespace Expense_Tracker.API.Controllers
 
             if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var parsedUserId))
             {
-                throw new ResourceNotFoundException("User not authenticated.");
+                return BadRequest("User not authenticated.");
             }
 
             expense = new Expense

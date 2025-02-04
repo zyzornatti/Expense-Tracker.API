@@ -27,9 +27,12 @@ namespace Expense_Tracker.API.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<Budget>> GetAllBudgetAsync(Guid user)
+        public async Task<List<Budget>> GetAllBudgetAsync(Guid user)
         {
-            throw new NotImplementedException();
+            var budgets = _dbContext.Budgets
+                .Where(e => e.UserId == user);
+
+            return await budgets.ToListAsync();
         }
 
         public async Task<List<BudgetInsightDto>> GetBudgetInsights(Guid userId, DateTime startDate, DateTime endDate, Guid? categoryId)

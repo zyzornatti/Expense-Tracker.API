@@ -46,7 +46,7 @@ namespace Expense_Tracker.API.Controllers
             var details = await _userRepository.LoginAsync(_mapper.Map<User>(loginInput));
             if (details == null)
             {
-               throw new ResourceNotFoundException("Invalid username or password.");
+                return BadRequest("Invalid username or password.");
             }
 
             // Generate JWT
